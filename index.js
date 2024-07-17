@@ -1,4 +1,7 @@
 const weekStartDates = [];
+var availableQuestions = [];
+var questionTime = true;
+var currentQuestion;
 
 /**
  * Convert a denary (decimal) number to an 8-bit binary string.
@@ -273,12 +276,40 @@ function generateWeekDates(startDate) {
  */
 function calculateCurrentWeek(time) {
     var weekNumber = 1;
-    var i = 0
+    var i = 0;
     while (i < weekStartDates.length && time >= weekStartDates[i]) {
         i += 1;
+        if (i === 1 && time < weekStartDates[i]) {
+            break;
+        }
         weekNumber += 1;
     }
-    return weekNumber - 1;
+    return weekNumber;
+}
+function shuffleArray(array) {
+    // Create a copy of the original array to avoid mutating the original
+    const shuffledArray = [...array];
+
+    // Fisher-Yates shuffle algorithm
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+}
+
+function cycleQuestion() {
+    if (availableQuestions.length !== 0) {
+        if (questionTime) {
+            currentQuestion = availableQuestions.pop();
+            document.getElementById("question").textContent = currentQuestion.question;
+            document.getElementById("answer").textContent = "";
+        } else {
+            document.getElementById("answer").textContent = currentQuestion.answer;
+        }
+    } else {
+        availableQuestions = shuffleArray(questionData.questions);
+    }
 }
 
 /**
@@ -287,15 +318,17 @@ function calculateCurrentWeek(time) {
 function init() {
     const week1Start = new Date(2024, 8, 2);
     generateWeekDates(week1Start);
-    updateTime();
+    availableQuestions = shuffleArray(questionData.questions);
+    console.log(availableQuestions);
+    update();
 }
 
 /**
  * Update the displayed time, date, period, and week numbers in various formats.
  */
-function updateTime() {
+function update() {
     const now = getCurrentTime();
-    //const now = new Date(2024, 11, 3, 17, 14);
+    //const now = new Date(2024, 8, 3, 17, 14);
     const clockStr = timeToStr(now);
     const dateStr = dateToStr(now);
     const periodStr = calculateCurrentPeriod(now);
@@ -308,6 +341,9 @@ function updateTime() {
     document.getElementById("currentDenaryWeek").textContent = denaryWeek;
     document.getElementById("currentBinaryWeek").textContent = binaryWeek;
     document.getElementById("currentHexWeek").textContent = hexWeek;
-    //document.getElementById("currentWeek").textContent = weekStr;
-    setTimeout(updateTime, 1000);
+    if (now.getSeconds() % 15 === 0) {
+        cycleQuestion();
+        questionTime = !questionTime;
+    }
+    setTimeout(update, 1000);
 }
