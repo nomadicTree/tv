@@ -28,9 +28,12 @@ function timeToStr(time) {
 }
 
 function dateToStr(time) {
-    const day = time.getDate();
-    const month = time.getMonth() + 1;
+    var day = time.getDate();
+    var month = time.getMonth() + 1;
     const year = time.getFullYear();
+
+    day = padWithLeadingZero(day);
+    month = padWithLeadingZero(month);
 
     const dateStr = day + "/" + month + "/" + year;
     return dateStr;
@@ -50,103 +53,68 @@ function convertToMinutes(time) {
     return hours * 60 + minutes;
 }
 
-function calculateNormalPeriod(time) {
-    var currentPeriod;
-    const regRange = ["08:30", "08:50"];
-    const p1Range = ["08:50", "09:50"];
-    const p2Range = ["09:50", "10:50"];
-    const b1Range = ["10:50", "11:10"];
-    const p3Range = ["11:10", "12:10"];
-    const b2Range = ["12:10", "13:10"];
-    const p4Range = ["13:10", "14:10"];
-    const p5Range = ["14:10", "15:10"];
 
-    if (timeInRange(time, regRange)) {
-        currentPeriod = "Registration";
-    } else if (timeInRange(time, p1Range)) {
-        currentPeriod = "Period 1";
-    } else if (timeInRange(time, p2Range)) {
-        currentPeriod = "Period 2";
-    } else if (timeInRange(time, b1Range)) {
-        currentPeriod = "Break time";
-    } else if (timeInRange(time, p3Range)) {
-        currentPeriod = "Period 3";
-    } else if (timeInRange(time, b2Range)) {
-        currentPeriod = "Activity time/Tutor time";
-    } else if (timeInRange(time, p4Range)) {
-        currentPeriod = "Period 4";
-    } else if (timeInRange(time, p5Range)) {
-        currentPeriod = "Period 5";
+function calculatePeriod(time, day) {
+    var currentPeriod;
+
+    // Define the period schedules for different days
+    const schedules = {
+        normal: [
+            { range: ["08:30", "08:50"], period: "Registration" },
+            { range: ["08:50", "09:50"], period: "Period 1" },
+            { range: ["09:50", "10:50"], period: "Period 2" },
+            { range: ["10:50", "11:10"], period: "Break time" },
+            { range: ["11:10", "12:10"], period: "Period 3" },
+            { range: ["12:10", "13:10"], period: "Activity time/Tutor time" },
+            { range: ["13:10", "14:10"], period: "Period 4" },
+            { range: ["14:10", "15:10"], period: "Period 5" }
+        ],
+        wednesday: [
+            { range: ["08:30", "08:50"], period: "Registration" },
+            { range: ["08:50", "09:50"], period: "Period 1" },
+            { range: ["09:50", "10:50"], period: "Period 2" },
+            { range: ["10:50", "11:10"], period: "Break time" },
+            { range: ["11:10", "12:10"], period: "Period 3" },
+            { range: ["12:10", "12:30"], period: "Tutor time" },
+            { range: ["12:30", "13:10"], period: "Activity time" },
+            { range: ["13:10", "14:10"], period: "Period 4" },
+            { range: ["14:10", "15:10"], period: "Period 5" }
+        ],
+        friday: [
+            { range: ["08:30", "08:50"], period: "Registration" },
+            { range: ["08:50", "09:50"], period: "Period 1" },
+            { range: ["09:50", "10:50"], period: "Period 2" },
+            { range: ["10:50", "11:10"], period: "Break time" },
+            { range: ["11:10", "12:10"], period: "Period 3" },
+            { range: ["12:10", "12:50"], period: "Activity time" },
+            { range: ["12:50", "13:50"], period: "Period 4" },
+            { range: ["13:50", "14:50"], period: "Period 5" }
+        ]
+    };
+
+    // Select the correct schedule based on the day
+    var selectedSchedule;
+    if (day === "Wednesday") {
+        selectedSchedule = schedules.wednesday;
+    } else if (day === "Friday") {
+        selectedSchedule = schedules.friday;
     } else {
+        selectedSchedule = schedules.normal;
+    }
+
+    // Determine the current period based on the time
+    for (var i = 0; i < selectedSchedule.length; i++) {
+        if (timeInRange(time, selectedSchedule[i].range)) {
+            currentPeriod = selectedSchedule[i].period;
+            break;
+        }
+    }
+
+    // If no period is found, set to "No lesson"
+    if (!currentPeriod) {
         currentPeriod = "No lesson";
     }
-    return currentPeriod;
-}
 
-function calculateWednesdayPeriod(time) {
-    var currentPeriod;
-    const regRange = ["08:30", "08:50"];
-    const p1Range = ["08:50", "09:50"];
-    const p2Range = ["09:50", "10:50"];
-    const b1Range = ["10:50", "11:10"];
-    const p3Range = ["11:10", "12:10"];
-    const pmTutorRange = ["12:10", "12:30"];
-    const b2Range = ["12:30", "13:10"];
-    const p4Range = ["13:10", "14:10"];
-    const p5Range = ["14:10", "15:10"];
-    if (timeInRange(time, regRange)) {
-        currentPeriod = "Registration";
-    } else if (timeInRange(time, p1Range)) {
-        currentPeriod = "Period 1";
-    } else if (timeInRange(time, p2Range)) {
-        currentPeriod = "Period 2";
-    } else if (timeInRange(time, b1Range)) {
-        currentPeriod = "Break time";
-    } else if (timeInRange(time, p3Range)) {
-        currentPeriod = "Period 3";
-    } else if (timeInRange(time, pmTutorRange)) {
-        currentPeriod = "Tutor time";
-    } else if (timeInRange(time, b2Range)) {
-        currentPeriod = "Activity time";
-    } else if (timeInRange(time, p4Range)) {
-        currentPeriod = "Period 4";
-    } else if (timeInRange(time, p5Range)) {
-        currentPeriod = "Period 5";
-    } else {
-        currentPeriod = "No lesson";
-    }
-    return currentPeriod;
-}
-
-function calculateFridayPeriod(time) {
-    var currentPeriod;
-    const regRange = ["08:30", "08:50"];
-    const p1Range = ["08:50", "09:50"];
-    const p2Range = ["09:50", "10:50"];
-    const b1Range = ["10:50", "11:10"];
-    const p3Range = ["11:10", "12:10"];
-    const b2Range = ["12:10", "12:50"];
-    const p4Range = ["12:50", "13:50"];
-    const p5Range = ["13:50", "14:50"];
-    if (timeInRange(time, regRange)) {
-        currentPeriod = "Registration";
-    } else if (timeInRange(time, p1Range)) {
-        currentPeriod = "Period 1";
-    } else if (timeInRange(time, p2Range)) {
-        currentPeriod = "Period 2";
-    } else if (timeInRange(time, b1Range)) {
-        currentPeriod = "Break time";
-    } else if (timeInRange(time, p3Range)) {
-        currentPeriod = "Period 3";
-    } else if (timeInRange(time, b2Range)) {
-        currentPeriod = "Activity time";
-    } else if (timeInRange(time, p4Range)) {
-        currentPeriod = "Period 4";
-    } else if (timeInRange(time, p5Range)) {
-        currentPeriod = "Period 5";
-    } else {
-        currentPeriod = "No lesson";
-    }
     return currentPeriod;
 }
 
@@ -159,12 +127,12 @@ function calculateCurrentPeriod(time) {
     if (currentDay >= 1 && currentDay <= 5) {
         if (currentDay === 5) {
             // Friday
-            currentPeriod = calculateFridayPeriod(hhmm);
+            currentPeriod = calculatePeriod(hhmm, "Friday");
         } else if (currentDay === 3) {
             // Wednesday
-            currentPeriod = calculateWednesdayPeriod(hhmm);
+            currentPeriod = calculatePeriod(hhmm, "Wednesday");
         } else {
-            currentPeriod = calculateNormalPeriod(hhmm);
+            currentPeriod = calculatePeriod(hhmm, "Normal");
         }
     } else {
         currentPeriod = "Weekend";
