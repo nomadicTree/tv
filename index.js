@@ -1,20 +1,70 @@
 const weekStartDates = [];
 
+/**
+ * Convert a denary (decimal) number to an 8-bit binary string.
+ * @param {number} num - The number to convert.
+ * @returns {string|null} - The 8-bit binary string or null if the number is out of range.
+ */
+function denaryTo8bitBinary(num) {
+    if (num < 0 || num > 255) {
+        console.log("Error: Number is out of range for an 8-bit binary representation.");
+        return null;
+    }
+
+    var binaryString = num.toString(2); // Convert to binary
+    while (binaryString.length < 8) {
+        binaryString = '0' + binaryString; // Pad with leading zeros
+    }
+
+    return binaryString;
+}
+
+/**
+ * Convert a denary (decimal) number to a 2-digit hexadecimal string.
+ * @param {number} num - The number to convert.
+ * @returns {string|null} - The 2-digit hexadecimal string or null if the number is out of range.
+ */
+function denaryTo2DigitHex(num) {
+    if (num < 0 || num > 255) {
+        console.log("Error: Number is out of range for a 2-digit hexadecimal representation.");
+        return null;
+    }
+
+    var hexString = num.toString(16); // Convert to hexadecimal
+    while (hexString.length < 2) {
+        hexString = '0' + hexString; // Pad with leading zeros if necessary
+    }
+
+    return hexString.toUpperCase(); // Convert to uppercase for consistency
+}
+
+/**
+ * Get the current time as a Date object.
+ * @returns {Date} - The current date and time.
+ */
 function getCurrentTime() {
     const now = new Date();
     return now
 }
 
+/**
+ * Add a leading zero to a number if it is less than 10.
+ * @param {number} i - The number to pad.
+ * @returns {string} - The padded number as a string.
+ */
 function padWithLeadingZero(i) {
-    // Add a leading 0 to a number if it is less than 10, e.g. 9 becomes 09
     if (i < 10) {
         i = "0" + i;
     }
     return i;
 }
 
+/**
+ * Convert a time to a string in the format hh:mm:ss.
+ * @param {Date} time - The time to convert.
+ * @returns {string} - The time as a string.
+ */
 function timeToStr(time) {
-    // Convert time to string in format hh:mm:ss
     var hours = time.getHours();
     var minutes = time.getMinutes();
     var seconds = time.getSeconds();
@@ -27,6 +77,11 @@ function timeToStr(time) {
     return clockStr;
 }
 
+/**
+ * Convert a date to a string in the format dd/mm/yyyy.
+ * @param {Date} time - The date to convert.
+ * @returns {string} - The date as a string.
+ */
 function dateToStr(time) {
     var day = time.getDate();
     var month = time.getMonth() + 1;
@@ -39,6 +94,12 @@ function dateToStr(time) {
     return dateStr;
 }
 
+/**
+ * Determines if a given time is within a specified range.
+ * @param {string} time - The current time in HH:MM format.
+ * @param {Array<string>} range - An array with two elements representing the start and end times in HH:MM format.
+ * @returns {boolean} - True if the time is within the range, otherwise false.
+ */
 function timeInRange(time, range) {
     const timeMinutes = convertToMinutes(time);
     const startMinutes = convertToMinutes(range[0]);
@@ -46,6 +107,11 @@ function timeInRange(time, range) {
     return timeMinutes >= startMinutes && timeMinutes < endMinutes;
 }
 
+/**
+ * Convert a time in HH:MM format to minutes.
+ * @param {string} time - The time to convert.
+ * @returns {number} - The time in minutes.
+ */
 function convertToMinutes(time) {
     const parts = time.split(":");
     const hours = parseInt(parts[0], 10);
@@ -53,7 +119,12 @@ function convertToMinutes(time) {
     return hours * 60 + minutes;
 }
 
-
+/**
+ * Calculates the current period based on the given time and day.
+ * @param {string} time - The current time in HH:MM format.
+ * @param {string} day - The current day of the week.
+ * @returns {string} - The current period.
+ */
 function calculatePeriod(time, day) {
     var currentPeriod;
 
@@ -118,6 +189,11 @@ function calculatePeriod(time, day) {
     return currentPeriod;
 }
 
+/**
+ * Calculate the current period based on the given time.
+ * @param {Date} time - The current date and time.
+ * @returns {string} - The current period.
+ */
 function calculateCurrentPeriod(time) {
     const currentDay = time.getDay();
     const hours = time.getHours();
@@ -140,10 +216,21 @@ function calculateCurrentPeriod(time) {
     return currentPeriod;
 }
 
+/**
+ * Checks if a given date is within a specified range.
+ * @param {Date} time - The date to check.
+ * @param {Array<Date>} range - An array with two elements representing the start and end dates.
+ * @returns {boolean} - True if the date is within the range, otherwise false.
+ */
 function dateInRange(time, range) {
     return range[0] <= time && time < range[1];
 }
 
+/**
+ * Validates if the given date is within the valid date ranges.
+ * @param {Date} time - The date to validate.
+ * @returns {boolean} - True if the date is valid, otherwise false.
+ */
 function validDate(time) {
     const invalidRanges = [
         [new Date(2024, 9, 25), new Date(2024, 10, 1)], // October 25 to November 1
@@ -161,6 +248,10 @@ function validDate(time) {
     return true;
 }
 
+/**
+ * Generate week start dates from the given start date.
+ * @param {Date} startDate - The start date for generating week dates.
+ */
 function generateWeekDates(startDate) {
     var currentWeekStart = startDate;
     var weekCount = 0;
@@ -175,6 +266,11 @@ function generateWeekDates(startDate) {
     }
 }
 
+/**
+ * Calculate the current week number based on the given date.
+ * @param {Date} time - The current date and time.
+ * @returns {number} - The current week number.
+ */
 function calculateCurrentWeek(time) {
     var weekNumber = 1;
     var i = 0
@@ -185,42 +281,18 @@ function calculateCurrentWeek(time) {
     return weekNumber - 1;
 }
 
+/**
+ * Initialize the application by generating week start dates and updating the time.
+ */
 function init() {
     const week1Start = new Date(2024, 8, 2);
     generateWeekDates(week1Start);
     updateTime();
 }
 
-function denaryTo8bitBinary(num) {
-    if (num < 0 || num > 255) {
-        console.log("Error: Number is out of range for an 8-bit binary representation.");
-        return null;
-    }
-
-    var binaryString = num.toString(2); // Convert to binary
-    while (binaryString.length < 8) {
-        binaryString = '0' + binaryString; // Pad with leading zeros
-    }
-
-    return binaryString;
-}
-
-
-function denaryTo2DigitHex(num) {
-    if (num < 0 || num > 255) {
-        console.log("Error: Number is out of range for a 2-digit hexadecimal representation.");
-        return null;
-    }
-
-    var hexString = num.toString(16); // Convert to hexadecimal
-    while (hexString.length < 2) {
-        hexString = '0' + hexString; // Pad with leading zeros if necessary
-    }
-
-    return hexString.toUpperCase(); // Convert to uppercase for consistency
-}
-
-
+/**
+ * Update the displayed time, date, period, and week numbers in various formats.
+ */
 function updateTime() {
     const now = getCurrentTime();
     //const now = new Date(2024, 11, 3, 17, 14);
