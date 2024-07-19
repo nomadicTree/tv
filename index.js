@@ -288,17 +288,7 @@ function calculateCurrentWeek(time) {
     }
     return weekNumber;
 }
-function shuffleArray(array) {
-    // Create a copy of the original array to avoid mutating the original
-    const shuffledArray = [...array];
 
-    // Fisher-Yates shuffle algorithm
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-    }
-    return shuffledArray;
-}
 
 function cycleQuestion() {
     if (availableQuestions.length !== 0) {
@@ -314,11 +304,6 @@ function cycleQuestion() {
     }
 }
 
-function resetAvailableQuestions() {
-    availableQuestions = addAdditionalQuestions(questionData.questions);
-    availableQuestions = shuffleArray(availableQuestions);
-}
-
 
 /**
  * Initialize the application by generating week start dates and updating the time.
@@ -327,7 +312,6 @@ function init() {
     const week1Start = new Date(2024, 8, 2);
     generateWeekDates(week1Start);
     resetAvailableQuestions();
-    console.log(availableQuestions);
     update();
 }
 
