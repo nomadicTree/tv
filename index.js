@@ -3,6 +3,8 @@ var availableQuestions = [];
 var questionTime = true;
 var currentQuestion;
 
+
+
 /**
  * Convert a denary (decimal) number to an 8-bit binary string.
  * @param {number} num - The number to convert.
@@ -139,7 +141,7 @@ function calculatePeriod(time, day) {
             { range: ["09:50", "10:50"], period: "Period 2" },
             { range: ["10:50", "11:10"], period: "Break time" },
             { range: ["11:10", "12:10"], period: "Period 3" },
-            { range: ["12:10", "13:10"], period: "Activity time/Tutor time" },
+            { range: ["12:10", "13:10"], period: "Activity/Tutor time" },
             { range: ["13:10", "14:10"], period: "Period 4" },
             { range: ["14:10", "15:10"], period: "Period 5" }
         ],
@@ -308,9 +310,15 @@ function cycleQuestion() {
             document.getElementById("answer").textContent = currentQuestion.answer;
         }
     } else {
-        availableQuestions = shuffleArray(questionData.questions);
+        resetAvailableQuestions();
     }
 }
+
+function resetAvailableQuestions() {
+    availableQuestions = addAdditionalQuestions(questionData.questions);
+    availableQuestions = shuffleArray(availableQuestions);
+}
+
 
 /**
  * Initialize the application by generating week start dates and updating the time.
@@ -318,7 +326,7 @@ function cycleQuestion() {
 function init() {
     const week1Start = new Date(2024, 8, 2);
     generateWeekDates(week1Start);
-    availableQuestions = shuffleArray(questionData.questions);
+    resetAvailableQuestions();
     console.log(availableQuestions);
     update();
 }
