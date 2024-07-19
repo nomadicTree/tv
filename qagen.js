@@ -8,6 +8,18 @@ function randint(min, max) {
     return randint;
 }
 
+function shuffleArray(array) {
+    // Create a copy of the original array to avoid mutating the original
+    const shuffledArray = [...array];
+
+    // Fisher-Yates shuffle algorithm
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+}
+
 function generateConversionQuestionDenaryToBinary(denaryValue) {
     const binary = denaryTo8bitBinary(denaryValue);
     const conversionQuestion = {
@@ -136,4 +148,16 @@ function addAdditionalQuestions(questionArray) {
     populateConversionQuestions(updatedArray, numConversionQuestions);
     populateAdditionQuestions(updatedArray, numBinaryAdditionQuestions);
     return updatedArray;
+}
+
+function loadBaseQuestions(questionData) {
+    const questionDataCopy = structuredClone(questionData);
+    const questionArray = Object.values(questionDataCopy).flat();
+    return questionArray;
+}
+
+function resetAvailableQuestions() {
+    availableQuestions = loadBaseQuestions(questionData);
+    availableQuestions = addAdditionalQuestions(availableQuestions);
+    availableQuestions = shuffleArray(availableQuestions);
 }
