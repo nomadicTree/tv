@@ -128,13 +128,13 @@ function generateConversionQuestionTwosComplement(denaryValue) {
 
 }
 
-function populateConversionQuestions(questionArray, numQuestions) {
+function addConversionQuestions(questionArray, numQuestions) {
     for (let i = 0; i < numQuestions; i++) {
         questionArray.push(generateConversionQuestion());
     }
 }
 
-function populateAdditionQuestions(questionArray, numQuestions) {
+function addAdditionQuestions(questionArray, numQuestions) {
     for (let i = 0; i < numQuestions; i++) {
         questionArray.push(generateBinaryAdditionQuestion());
     }
@@ -145,8 +145,8 @@ function addAdditionalQuestions(questionArray) {
     const length = updatedArray.length;
     const numConversionQuestions = Math.ceil(length * conversionPercentage);
     const numBinaryAdditionQuestions = Math.ceil(length * additionPercentage);
-    populateConversionQuestions(updatedArray, numConversionQuestions);
-    populateAdditionQuestions(updatedArray, numBinaryAdditionQuestions);
+    addConversionQuestions(updatedArray, numConversionQuestions);
+    addAdditionQuestions(updatedArray, numBinaryAdditionQuestions);
     return updatedArray;
 }
 
