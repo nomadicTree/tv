@@ -291,17 +291,26 @@ function calculateCurrentWeek(time) {
 
 
 function cycleQuestion() {
+    const questionElement = document.getElementById("question");
+    const answerElement = document.getElementById("answer");
     if (availableQuestions.length !== 0) {
         if (questionTime) {
             currentQuestion = availableQuestions.pop();
-            document.getElementById("question").textContent = currentQuestion.question;
-            document.getElementById("answer").textContent = "";
+            questionElement.innerHTML = currentQuestion.question;
+            answerElement.innerHTML = "";
         } else {
-            document.getElementById("answer").textContent = currentQuestion.answer;
+            answerElement.innerHTML = currentQuestion.answer;
         }
     } else {
         resetAvailableQuestions();
     }
+    questionTime = !questionTime;
+}
+
+function createSubscriptElement(text) {
+    var subscript = document.createElement("sub");
+    subscript.textContent = text;
+    return subscript;
 }
 
 
@@ -312,8 +321,10 @@ function init() {
     const week1Start = new Date(2024, 8, 2);
     generateWeekDates(week1Start);
     resetAvailableQuestions();
+    cycleQuestion();
     update();
 }
+
 
 /**
  * Update the displayed time, date, period, and week numbers in various formats.
@@ -327,15 +338,25 @@ function update() {
     const denaryWeek = calculateCurrentWeek(now);
     const binaryWeek = denaryTo8bitBinary(denaryWeek);
     const hexWeek = denaryTo2DigitHex(denaryWeek);
-    document.getElementById("clock").textContent = clockStr;
-    document.getElementById("date").textContent = dateStr;
-    document.getElementById("currentPeriod").textContent = periodStr;
-    document.getElementById("currentDenaryWeek").textContent = denaryWeek;
-    document.getElementById("currentBinaryWeek").textContent = binaryWeek;
-    document.getElementById("currentHexWeek").textContent = hexWeek;
+    const clock = document.getElementById("clock");
+    const date = document.getElementById("date");
+    const currentPeriod = document.getElementById("currentPeriod");
+    const currentDenaryWeek = document.getElementById("currentDenaryWeek");
+    const currentBinaryWeek = document.getElementById("currentBinaryWeek")
+    const currentHexWeek = document.getElementById("currentHexWeek");
+    const subscriptDenary = document.createElement("span");
+    subscriptDenary.classList.add("subscript");
+    clock.textContent = clockStr;
+    date.textContent = dateStr;
+    currentPeriod.textContent = periodStr;
+    currentDenaryWeek.textContent = "Week " + denaryWeek;
+    currentDenaryWeek.appendChild(createSubscriptElement(10));
+    currentBinaryWeek.textContent = binaryWeek;
+    currentBinaryWeek.appendChild(createSubscriptElement(2));
+    currentHexWeek.textContent = hexWeek;
+    currentHexWeek.appendChild(createSubscriptElement(16));
     if (now.getSeconds() % 15 === 0) {
         cycleQuestion();
-        questionTime = !questionTime;
     }
     setTimeout(update, 1000);
 }
