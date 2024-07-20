@@ -360,3 +360,33 @@ function update() {
     }
     setTimeout(update, 1000);
 }
+
+
+let inactivityTimeout;
+const inactivityPeriod = 3000; // Time in milliseconds (e.g., 3000ms = 3 seconds)
+
+// Function to handle hiding the cursor
+function hideCursor() {
+    document.body.classList.add('cursor-hidden');
+}
+
+// Function to handle showing the cursor
+function showCursor() {
+    document.body.classList.remove('cursor-hidden');
+}
+
+// Function to reset the inactivity timer
+function resetInactivityTimer() {
+    showCursor(); // Show cursor on user activity
+    clearTimeout(inactivityTimeout); // Clear any existing timeout
+    inactivityTimeout = setTimeout(hideCursor, inactivityPeriod); // Set new timeout
+}
+
+// Attach event listeners to detect user activity
+document.addEventListener('mousemove', resetInactivityTimer);
+document.addEventListener('keypress', resetInactivityTimer);
+document.addEventListener('mousedown', resetInactivityTimer); // For mouse clicks
+document.addEventListener('scroll', resetInactivityTimer); // For scrolling
+
+// Initialize the timer when the page loads
+resetInactivityTimer();
