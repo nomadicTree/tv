@@ -55,11 +55,20 @@ const questionData = {
         {
             question: "What does CPU stand for?",
             answer: "Central Processing Unit"
+        },
+        {
+            question: "What is the primary function of an operating system?",
+            answer: "To manage computer hardware and software resources and provide common services for computer programs."
+        },
+
+        {
+            question: "Define the term \"encryption.\"",
+            answer: "The process of encoding information so that only authorized parties can access it."
         }
     ],
     memoryAndStorage: [
         {
-            question: "What is stored in RAM?",
+            question: "What does RAM store?",
             answer: "Instructions and data currently in use"
         },
         {
@@ -71,8 +80,12 @@ const questionData = {
             answer: "Volatile"
         },
         {
-            question: "What is ROM?",
+            question: "What does ROM stand for?",
             answer: "Read Only Memory"
+        },
+        {
+            question: "What does RAM stand for?",
+            answer: "Random Access Memory"
         },
         {
             question: "Is ROM volatile or non-volatile?",
@@ -85,8 +98,11 @@ const questionData = {
         {
             question: "What does SSD stand for?",
             answer: "Solid State Drive"
+        },
+        {
+            question: "What are the three types of secondary storage?",
+            answer: "Magnetic, optical, and solid state"
         }
-
     ],
     computerNetworksConnectionsAndProtocols: [
         {
@@ -98,7 +114,7 @@ const questionData = {
             answer: "A unit of data transmitted over a network"
         },
         {
-            question: "Differentiate between a LAN and a WAN.",
+            question: "Explain the difference between a LAN and a WAN.",
             answer: "LAN (Local Area Network) is a network confined to a small geographic area, whereas WAN (Wide Area Network) covers a large geographic area."
         },
         {
@@ -138,14 +154,21 @@ const questionData = {
     networkSecurity: [
         {
             question: "What is a firewall used for in computing?",
-            answer: "To monitor and control incoming and outgoing network traffic based on predetermined security rules."
+            answer: "To monitor and control incoming and outgoing network traffic based on predetermined security rules"
         }
     ],
     ethics: [
 
     ],
     algorithms: [
-
+        {
+            question: "What is the purpose of a flowchart?",
+            answer: "To visually represent the steps of an algorithm or process"
+        },
+        {
+            question: "What is a flowchart?",
+            answer: "A diagram that represents a process or algorithm"
+        }
     ],
     programmingFundamentals: [
         {
@@ -154,11 +177,11 @@ const questionData = {
         },
         {
             question: "What is the difference between a procedure and a function?",
-            answer: "A function returns a value whereas a procedure does not."
+            answer: "A function returns a value whereas a procedure does not"
         },
         {
             question: "What is a variable in programming?",
-            answer: "A named location in memory whose value can change while the program is running."
+            answer: "A named location in memory whose value can change while the program is running"
         },
         {
             question: "What are the three fundamental programming constructs?",
@@ -172,10 +195,13 @@ const questionData = {
             question: "What is a boolean data type?",
             answer: "A data type with two possible values: true or false"
         },
-
         {
             question: "What is pseudocode?",
             answer: "A simplified, informal language used to outline an algorithm"
+        },
+        {
+            question: "State the names of five data types",
+            answer: "Integer, float, Boolean, character, and string"
         }
     ],
     producingRobustPrograms: [
@@ -205,18 +231,10 @@ const questionData = {
         }
     ],
     sortMe: [
-        {
-            question: "What is the primary function of an operating system?",
-            answer: "To manage computer hardware and software resources and provide common services for computer programs."
-        },
+
 
         {
-            question: "Define the term \"encryption.\"",
-            answer: "The process of encoding information so that only authorized parties can access it."
-        },
-
-        {
-            question: "Name technologies commonly used for web development.",
+            question: "State three technologies commonly used for web development.",
             answer: "HTML, CSS, JavaScript"
         },
 
@@ -341,10 +359,7 @@ const questionData = {
             question: "What is artificial intelligence (AI)?",
             answer: "Simulation of human intelligence in machines"
         },
-        {
-            question: "What is a flowchart?",
-            answer: "A diagram that represents a process or algorithm"
-        },
+
         {
             question: "What is a binary tree?",
             answer: "A data structure where each node has up to two children"
@@ -357,10 +372,7 @@ const questionData = {
             question: "What is the purpose of a database index?",
             answer: "To speed up the retrieval of data"
         },
-        {
-            question: "What is the purpose of a flowchart?",
-            answer: "To visually represent the steps of an algorithm or process"
-        }
+
 
     ]
 };
