@@ -8,7 +8,7 @@ function randint(min, max) {
     return randint;
 }
 
-function subscript(text) {
+function createSubscriptString(text) {
     //return "<span class='questionSubscript'>" + text + "</span>"
     return "<sub>" + text + "</sub>"
 }
@@ -28,8 +28,8 @@ function shuffleArray(array) {
 function generateConversionQuestionDenaryToBinary(denaryValue) {
     const binary = denaryTo8bitBinary(denaryValue);
     const conversionQuestion = {
-        question: "Convert " + denaryValue + subscript(10) + " to 8-bit binary.",
-        answer: binary + subscript(2)
+        question: "Convert " + denaryValue + createSubscriptString(10) + " to 8-bit binary.",
+        answer: binary + createSubscriptString(2)
     };
     return conversionQuestion;
 }
@@ -37,8 +37,8 @@ function generateConversionQuestionDenaryToBinary(denaryValue) {
 function generateConversionQuestionBinaryToDenary(denaryValue) {
     const binary = denaryTo8bitBinary(denaryValue);
     const conversionQuestion = {
-        question: "Convert " + binary + subscript(2) + " to denary.",
-        answer: denaryValue + subscript(10)
+        question: "Convert " + binary + createSubscriptString(2) + " to denary.",
+        answer: denaryValue + createSubscriptString(10)
     };
     return conversionQuestion;
 }
@@ -46,8 +46,8 @@ function generateConversionQuestionBinaryToDenary(denaryValue) {
 function generateConversionQuestionDenaryToHex(denaryValue) {
     const hex = denaryTo2DigitHex(denaryValue);
     const conversionQuestion = {
-        question: "Convert " + denaryValue + subscript(10) + " to hexadecimal.",
-        answer: hex + subscript(16)
+        question: "Convert " + denaryValue + createSubscriptString(10) + " to hexadecimal.",
+        answer: hex + createSubscriptString(16)
     };
     return conversionQuestion;
 }
@@ -55,8 +55,8 @@ function generateConversionQuestionDenaryToHex(denaryValue) {
 function generateConversionQuestionHexToDenary(denaryValue) {
     const hex = denaryTo2DigitHex(denaryValue);
     const conversionQuestion = {
-        question: "Convert " + hex + subscript(16) +  " to denary.",
-        answer: denaryValue + subscript(10)
+        question: "Convert " + hex + createSubscriptString(16) +  " to denary.",
+        answer: denaryValue + createSubscriptString(10)
     };
     return conversionQuestion;
 }
@@ -65,8 +65,8 @@ function generateConversionQuestionBinaryToHex(denaryValue) {
     const binary = denaryTo8bitBinary(denaryValue);
     const hex = denaryTo2DigitHex(denaryValue);
     const conversionQuestion = {
-        question: "Convert " + binary + subscript(2) + " to hexadecimal.",
-        answer: hex + subscript(16)
+        question: "Convert " + binary + createSubscriptString(2) + " to hexadecimal.",
+        answer: hex + createSubscriptString(16)
     };
     return conversionQuestion;
 }
@@ -75,8 +75,8 @@ function generateConversionQuestionHexToBinary(denaryValue) {
     const binary = denaryTo8bitBinary(denaryValue);
     const hex = denaryTo2DigitHex(denaryValue);
     const conversionQuestion = {
-        question: "Convert " + hex + subscript(16) + " to binary.",
-        answer: binary + subscript(2)
+        question: "Convert " + hex + createSubscriptString(16) + " to binary.",
+        answer: binary + createSubscriptString(2)
     };
     return conversionQuestion;
 }
@@ -117,14 +117,14 @@ function generateBinaryAdditionQuestion() {
     const xBinary = denaryTo8bitBinary(xDenary);
     const yBinary = denaryTo8bitBinary(yDenary);
     var additionQuestion = {
-        question: "What is the sum of " + xBinary + subscript(2) + " and " + yBinary + subscript(2) + "?"
+        question: "What is the sum of " + xBinary + createSubscriptString(2) + " and " + yBinary + createSubscriptString(2) + "?"
     };
     if (sumDenary >= maxValue) {
         const sumBinary = denaryTo8bitBinary(sumDenary - maxValue);
-        additionQuestion.answer = "1 " + sumBinary + subscript(2) + " (overflow)";
+        additionQuestion.answer = "1 " + sumBinary + createSubscriptString(2) + " (overflow)";
     } else {
         const sumBinary = denaryTo8bitBinary(sumDenary);
-        additionQuestion.answer = sumBinary + subscript(2);
+        additionQuestion.answer = sumBinary + createSubscriptString(2);
     }
     return additionQuestion;
 }
