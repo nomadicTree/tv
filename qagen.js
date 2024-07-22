@@ -1,23 +1,36 @@
 const conversionPercentage = 0.1;
 const additionPercentage = 0.05
 
+/**
+ * Generate a random integer in given range. 
+ * @param {number} min - lower bound (inclusive)
+ * @param {number} max - upper bound (exclusive)
+ * @returns 
+ */
 function randint(min, max) {
     const minCeiled = Math.ceil(min);
     const maxFloored = Math.floor(max);
-    const randint = Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // max is exclusive, min is inclusive
+    const randint = Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
     return randint;
 }
 
+/**
+ * Return given text wrapped with substring tags. 
+ * @param {String} text 
+ * @returns {String}
+ */
 function createSubscriptString(text) {
-    //return "<span class='questionSubscript'>" + text + "</span>"
     return "<sub>" + text + "</sub>"
 }
 
+/**
+ * Copy and shuffle an array using Fisher-Yates shuffle algorithm.
+ * @param {*} array - array to shuffle
+ * @returns {Array<*>} - copy of shuffled array
+ */
 function shuffleArray(array) {
-    // Create a copy of the original array to avoid mutating the original
     const shuffledArray = [...array];
 
-    // Fisher-Yates shuffle algorithm
     for (let i = shuffledArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
@@ -25,6 +38,11 @@ function shuffleArray(array) {
     return shuffledArray;
 }
 
+/**
+ * Return an object with a question and answer.
+ * @param {*} denaryValue 
+ * @returns 
+ */
 function generateConversionQuestionDenaryToBinary(denaryValue) {
     const binary = denaryTo8bitBinary(denaryValue);
     const conversionQuestion = {
@@ -34,6 +52,11 @@ function generateConversionQuestionDenaryToBinary(denaryValue) {
     return conversionQuestion;
 }
 
+/**
+ * Return an object with a question and answer.
+ * @param {*} denaryValue 
+ * @returns 
+ */
 function generateConversionQuestionBinaryToDenary(denaryValue) {
     const binary = denaryTo8bitBinary(denaryValue);
     const conversionQuestion = {
@@ -43,6 +66,11 @@ function generateConversionQuestionBinaryToDenary(denaryValue) {
     return conversionQuestion;
 }
 
+/**
+ * Return an object with a question and answer.
+ * @param {*} denaryValue 
+ * @returns 
+ */
 function generateConversionQuestionDenaryToHex(denaryValue) {
     const hex = denaryTo2DigitHex(denaryValue);
     const conversionQuestion = {
@@ -52,6 +80,11 @@ function generateConversionQuestionDenaryToHex(denaryValue) {
     return conversionQuestion;
 }
 
+/**
+ * Return an object with a question and answer.
+ * @param {*} denaryValue 
+ * @returns 
+ */
 function generateConversionQuestionHexToDenary(denaryValue) {
     const hex = denaryTo2DigitHex(denaryValue);
     const conversionQuestion = {
@@ -61,6 +94,11 @@ function generateConversionQuestionHexToDenary(denaryValue) {
     return conversionQuestion;
 }
 
+/**
+ * Return an object with a question and answer.
+ * @param {*} denaryValue 
+ * @returns 
+ */
 function generateConversionQuestionBinaryToHex(denaryValue) {
     const binary = denaryTo8bitBinary(denaryValue);
     const hex = denaryTo2DigitHex(denaryValue);
@@ -70,7 +108,11 @@ function generateConversionQuestionBinaryToHex(denaryValue) {
     };
     return conversionQuestion;
 }
-
+/**
+ * Return an object with a question and answer.
+ * @param {*} denaryValue 
+ * @returns 
+ */
 function generateConversionQuestionHexToBinary(denaryValue) {
     const binary = denaryTo8bitBinary(denaryValue);
     const hex = denaryTo2DigitHex(denaryValue);
@@ -81,6 +123,10 @@ function generateConversionQuestionHexToBinary(denaryValue) {
     return conversionQuestion;
 }
 
+/**
+ * Randomly choose a conversion question, seeding it with a randomly generated number.
+ * Return the question. 
+ */
 function generateConversionQuestion() {
     const questionTypesAvailable = 6; // there are 6 conversion question types above
     const denary = randint(0, 256);
@@ -109,6 +155,9 @@ function generateConversionQuestion() {
     return conversionQuestion;
 }
 
+/**
+ * Randomly generate a binary addition question (no more than 8 bits) 
+ */
 function generateBinaryAdditionQuestion() {
     const maxValue = 256;
     const xDenary = randint(0, maxValue);
@@ -129,22 +178,34 @@ function generateBinaryAdditionQuestion() {
     return additionQuestion;
 }
 
-function generateConversionQuestionTwosComplement(denaryValue) {
 
-}
-
+/**
+ * Generate a set number of conversion questions and add them to the array.
+ * @param {Array} questionArray 
+ * @param {number} numQuestions 
+ */
 function addConversionQuestions(questionArray, numQuestions) {
     for (let i = 0; i < numQuestions; i++) {
         questionArray.push(generateConversionQuestion());
     }
 }
 
+/**
+ * Generate a set number of addition questions and add them to the array.
+ * @param {Array} questionArray 
+ * @param {number} numQuestions 
+ */
 function addAdditionQuestions(questionArray, numQuestions) {
     for (let i = 0; i < numQuestions; i++) {
         questionArray.push(generateBinaryAdditionQuestion());
     }
 }
 
+/**
+ * Add new randomly generated questions to the array.
+ * @param {*} questionArray 
+ * @returns 
+ */
 function addAdditionalQuestions(questionArray) {
     const updatedArray = [...questionArray];
     const length = updatedArray.length;
@@ -155,12 +216,21 @@ function addAdditionalQuestions(questionArray) {
     return updatedArray;
 }
 
+/**
+ * Load written questions into array.
+ * @param {*} questionData 
+ * @returns 
+ */
 function loadBaseQuestions(questionData) {
     const questionDataCopy = structuredClone(questionData);
     const questionArray = Object.values(questionDataCopy).flat();
     return questionArray;
 }
 
+
+/**
+ * Generate new randomly generated questions and shuffle the array
+ */
 function resetAvailableQuestions() {
     availableQuestions = loadBaseQuestions(questionData);
     availableQuestions = addAdditionalQuestions(availableQuestions);
