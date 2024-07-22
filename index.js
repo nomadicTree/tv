@@ -1,9 +1,10 @@
+const week1Start = new Date(2024, 8, 2); // Start date of week 1
+const inactivityPeriod = 3000; // Time in milliseconds (e.g., 3000ms = 3 seconds)
 const weekStartDates = [];
 var availableQuestions = [];
-var questionTime = true;
+var questionTime = true; // If true, a new question should be displayed. If false, the answer needs to be revealed.
 var currentQuestion;
-
-
+var inactivityTimeout;
 
 /**
  * Convert a denary (decimal) number to an 8-bit binary string.
@@ -289,7 +290,11 @@ function calculateCurrentWeek(time) {
     return weekNumber;
 }
 
-
+/**
+ * Update the question displayed.
+ * Reveal the answer if it has not been shown yet.
+ * Replace the question if the answer has been revealed.
+ */
 function cycleQuestion() {
     const questionElement = document.getElementById("question");
     const answerElement = document.getElementById("answer");
@@ -307,86 +312,123 @@ function cycleQuestion() {
     questionTime = !questionTime;
 }
 
+/**
+ * Wrap given text in <sub> tags. 
+ * @param {String} text 
+ * @returns {String} - text wrapped in <sub> tags
+ */
 function createSubscriptElement(text) {
     var subscript = document.createElement("sub");
     subscript.textContent = text;
     return subscript;
 }
 
-
 /**
- * Initialize the application by generating week start dates and updating the time.
+ * Updates the displayed week information showing the week in denary, binary, and hex.
+ * @param {number} denaryWeekNumber - the current week number as a denary integer.
  */
-function init() {
-    const week1Start = new Date(2024, 8, 2);
-    generateWeekDates(week1Start);
-    resetAvailableQuestions();
-    cycleQuestion();
-    update();
+function updateWeek(denaryWeekNumber) {
+    const currentDenaryWeekElement = document.getElementById("currentDenaryWeek");
+    const currentBinaryWeekElement = document.getElementById("currentBinaryWeek")
+    const currentHexWeekElement = document.getElementById("currentHexWeek");
+    const binaryWeekNumber = denaryTo8bitBinary(denaryWeekNumber);
+    const hexWeekNumber = denaryTo2DigitHex(denaryWeekNumber);
+    currentDenaryWeekElement.textContent = "Week " + denaryWeekNumber;
+    currentDenaryWeekElement.appendChild(createSubscriptElement(10));
+    currentBinaryWeekElement.textContent = binaryWeekNumber;
+    currentBinaryWeekElement.appendChild(createSubscriptElement(2));
+    currentHexWeekElement.textContent = hexWeekNumber;
+    currentHexWeekElement.appendChild(createSubscriptElement(16));
 }
 
+/**
+ * Update the clock with the current time
+ * @param {Date} time 
+ */
+function updateTime(time) {
+    const clock = document.getElementById("clock");
+    const clockStr = timeToStr(time);
+    clock.textContent = clockStr;
+}
 
 /**
- * Update the displayed time, date, period, and week numbers in various formats.
+ * Update the date
+ * @param {String} dateStr 
  */
-function update() {
+function updateDate(dateStr) {
+    const date = document.getElementById("date");
+    dateStr.textContent = dateStr;
+}
+
+/**
+ * Update the period
+ * @param {String} currentPeriod 
+ */
+function updatePeriod(currentPeriod) {
+    const currentPeriodElement = document.getElementById("currentPeriod");
+    currentPeriodElement.textContent = currentPeriod;
+}
+
+/**
+ * Update the page for the current time.
+ */
+function updatePage() {
     const now = getCurrentTime();
     //const now = new Date(2024, 8, 3, 17, 14);
-    const clockStr = timeToStr(now);
+    updateTime(now);
     const dateStr = dateToStr(now);
-    const periodStr = calculateCurrentPeriod(now);
-    const denaryWeek = calculateCurrentWeek(now);
-    const binaryWeek = denaryTo8bitBinary(denaryWeek);
-    const hexWeek = denaryTo2DigitHex(denaryWeek);
-    const clock = document.getElementById("clock");
-    const date = document.getElementById("date");
-    const currentPeriod = document.getElementById("currentPeriod");
-    const currentDenaryWeek = document.getElementById("currentDenaryWeek");
-    const currentBinaryWeek = document.getElementById("currentBinaryWeek")
-    const currentHexWeek = document.getElementById("currentHexWeek");
-    const subscriptDenary = document.createElement("span");
-    subscriptDenary.classList.add("subscript");
-    clock.textContent = clockStr;
-    date.textContent = dateStr;
-    currentPeriod.textContent = periodStr;
-    currentDenaryWeek.textContent = "Week " + denaryWeek;
-    currentDenaryWeek.appendChild(createSubscriptElement(10));
-    currentBinaryWeek.textContent = binaryWeek;
-    currentBinaryWeek.appendChild(createSubscriptElement(2));
-    currentHexWeek.textContent = hexWeek;
-    currentHexWeek.appendChild(createSubscriptElement(16));
+    updateDate(dateStr);
+    const currentPeriod = calculateCurrentPeriod(now);
+    updatePeriod(currentPeriod);
+    const denaryWeekNumber = calculateCurrentWeek(now);
+    updateWeek(denaryWeekNumber);
     if (now.getSeconds() % 15 === 0) {
         cycleQuestion();
     }
-    setTimeout(update, 1000);
+    setTimeout(updatePage, 1000);
 }
 
-
-let inactivityTimeout;
-const inactivityPeriod = 3000; // Time in milliseconds (e.g., 3000ms = 3 seconds)
-
-// Function to handle hiding the cursor
+/**
+ * Hide the cursor
+ */
 function hideCursor() {
     document.body.classList.add('cursor-hidden');
 }
 
-// Function to handle showing the cursor
+/**
+ * Show the cursor
+ */
 function showCursor() {
     document.body.classList.remove('cursor-hidden');
 }
 
-// Function to reset the inactivity timer
+/**
+ * Reset the inactivity timer for hiding the cursor
+ */
 function resetInactivityTimer() {
     showCursor(); // Show cursor on user activity
-    clearTimeout(inactivityTimeout); // Clear any existing timeout
-    inactivityTimeout = setTimeout(hideCursor, inactivityPeriod); // Set new timeout
+    clearTimeout(inactivityTimeout);
+    inactivityTimeout = setTimeout(hideCursor, inactivityPeriod);
 }
 
-// Attach event listeners to detect user activity
-document.addEventListener('mousemove', resetInactivityTimer);
-document.addEventListener('keypress', resetInactivityTimer);
-document.addEventListener('mousedown', resetInactivityTimer); // For mouse clicks
-document.addEventListener('scroll', resetInactivityTimer); // For scrolling
+/**
+ * Attach event listeners to detect user activity and start the inactivity timer.
+ */
+function startInactivityTimer() {
+    document.addEventListener('mousemove', resetInactivityTimer);
+    document.addEventListener('keypress', resetInactivityTimer);
+    document.addEventListener('mousedown', resetInactivityTimer);
+    document.addEventListener('scroll', resetInactivityTimer);
+    resetInactivityTimer();
+}
 
-// Initialize the timer when the page loads
-resetInactivityTimer();
+/**
+ * Initialize the application.
+ */
+function init() {
+    startInactivityTimer();
+    generateWeekDates(week1Start);
+    resetAvailableQuestions();
+    cycleQuestion();
+    updatePage();
+}
