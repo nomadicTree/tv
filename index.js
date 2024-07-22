@@ -342,13 +342,12 @@ function updateWeek(denaryWeekNumber) {
 }
 
 /**
- * Update the clock with the current time
- * @param {Date} time 
+ * Update the clock
+ * @param {String} clockStr 
  */
-function updateTime(time) {
-    const clock = document.getElementById("clock");
-    const clockStr = timeToStr(time);
-    clock.textContent = clockStr;
+function updateClock(clockStr) {
+    const clockElement = document.getElementById("clock");
+    clockElement.textContent = clockStr;
 }
 
 /**
@@ -356,8 +355,8 @@ function updateTime(time) {
  * @param {String} dateStr 
  */
 function updateDate(dateStr) {
-    const date = document.getElementById("date");
-    dateStr.textContent = dateStr;
+    const dateElement = document.getElementById("date");
+    dateElement.textContent = dateStr;
 }
 
 /**
@@ -372,10 +371,10 @@ function updatePeriod(currentPeriod) {
 /**
  * Update the page for the current time.
  */
-function updatePage() {
+function updateEverything() {
     const now = getCurrentTime();
-    //const now = new Date(2024, 8, 3, 17, 14);
-    updateTime(now);
+    const clockStr = timeToStr(now);
+    updateClock(clockStr);
     const dateStr = dateToStr(now);
     updateDate(dateStr);
     const currentPeriod = calculateCurrentPeriod(now);
@@ -385,7 +384,7 @@ function updatePage() {
     if (now.getSeconds() % 15 === 0) {
         cycleQuestion();
     }
-    setTimeout(updatePage, 1000);
+    setTimeout(updateEverything, 1000);
 }
 
 /**
@@ -430,5 +429,5 @@ function init() {
     generateWeekDates(week1Start);
     resetAvailableQuestions();
     cycleQuestion();
-    updatePage();
+    updateEverything();
 }
