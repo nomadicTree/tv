@@ -7,44 +7,6 @@ var currentQuestion;
 var inactivityTimeout;
 
 /**
- * Convert a denary (decimal) number to an 8-bit binary string.
- * @param {number} num - The number to convert.
- * @returns {string|null} - The 8-bit binary string or null if the number is out of range.
- */
-function denaryTo8bitBinary(num) {
-    if (num < 0 || num > 255) {
-        console.log("Error: Number is out of range for an 8-bit binary representation.");
-        return null;
-    }
-
-    var binaryString = num.toString(2); // Convert to binary
-    while (binaryString.length < 8) {
-        binaryString = '0' + binaryString; // Pad with leading zeros
-    }
-
-    return binaryString;
-}
-
-/**
- * Convert a denary (decimal) number to a 2-digit hexadecimal string.
- * @param {number} num - The number to convert.
- * @returns {string|null} - The 2-digit hexadecimal string or null if the number is out of range.
- */
-function denaryTo2DigitHex(num) {
-    if (num < 0 || num > 255) {
-        console.log("Error: Number is out of range for a 2-digit hexadecimal representation.");
-        return null;
-    }
-
-    var hexString = num.toString(16); // Convert to hexadecimal
-    while (hexString.length < 2) {
-        hexString = '0' + hexString; // Pad with leading zeros if necessary
-    }
-
-    return hexString.toUpperCase(); // Convert to uppercase for consistency
-}
-
-/**
  * Get the current time as a Date object.
  * @returns {Date} - The current date and time.
  */
