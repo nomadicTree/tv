@@ -106,7 +106,8 @@ function calculatePeriod(time, day) {
             { range: ["11:10", "12:10"], period: "Period 3" },
             { range: ["12:10", "13:10"], period: "Activity/Tutor time" },
             { range: ["13:10", "14:10"], period: "Period 4" },
-            { range: ["14:10", "15:10"], period: "Period 5" }
+            { range: ["14:10", "15:10"], period: "Period 5" },
+            { range: ["15:10", "16:10"], period: "Twilight" }
         ],
         wednesday: [
             { range: ["08:30", "08:50"], period: "Registration" },
@@ -117,7 +118,8 @@ function calculatePeriod(time, day) {
             { range: ["12:10", "12:30"], period: "Tutor time" },
             { range: ["12:30", "13:10"], period: "Activity time" },
             { range: ["13:10", "14:10"], period: "Period 4" },
-            { range: ["14:10", "15:10"], period: "Period 5" }
+            { range: ["14:10", "15:10"], period: "Period 5" },
+            { range: ["15:10", "16:10"], period: "Twilight" }
         ],
         friday: [
             { range: ["08:30", "08:50"], period: "Registration" },
@@ -127,7 +129,8 @@ function calculatePeriod(time, day) {
             { range: ["11:10", "12:10"], period: "Period 3" },
             { range: ["12:10", "12:50"], period: "Activity time" },
             { range: ["12:50", "13:50"], period: "Period 4" },
-            { range: ["13:50", "14:50"], period: "Period 5" }
+            { range: ["13:50", "14:50"], period: "Period 5" },
+            { range: ["15:10", "16:10"], period: "Twilight" }
         ]
     };
 
