@@ -243,7 +243,7 @@ function generateWeekDates(startDate) {
  * @returns {number} - The current week number.
  */
 function calculateCurrentWeek(time) {
-    var weekNumber = 1;
+    var weekNumber = 0;
     var i = 0;
     while (i < weekStartDates.length && time >= weekStartDates[i]) {
         i += 1;
