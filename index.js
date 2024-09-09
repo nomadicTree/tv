@@ -130,7 +130,7 @@ function calculatePeriod(time, day) {
             { range: ["12:10", "12:50"], period: "Activity time" },
             { range: ["12:50", "13:50"], period: "Period 4" },
             { range: ["13:50", "14:50"], period: "Period 5" },
-            { range: ["15:10", "16:10"], period: "Twilight" }
+            { range: ["14:50", "15:50"], period: "Twilight" }
         ]
     };
 
