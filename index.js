@@ -5,6 +5,7 @@ var availableQuestions = [];
 var questionTime = true; // If true, a new question should be displayed. If false, the answer needs to be revealed.
 var currentQuestion;
 var inactivityTimeout;
+var periodOverride = false; // should be false by default, change to string matching text to be displayed in place of period for overrides
 
 /**
  * Get the current time as a Date object.
@@ -170,8 +171,10 @@ function calculateCurrentPeriod(time) {
     const hours = time.getHours();
     const minutes = time.getMinutes();
     const hhmm = hours + ":" + minutes;
-    // Weekday?
-    if (currentDay >= 1 && currentDay <= 5) {
+    if (periodOverride) {
+        currentPeriod = periodOverride;
+        // Weekday?
+    } else if (currentDay >= 1 && currentDay <= 5) {
         if (currentDay === 5) {
             // Friday
             currentPeriod = calculatePeriod(hhmm, "Friday");
@@ -244,13 +247,11 @@ function generateWeekDates(startDate) {
  */
 function calculateCurrentWeek(time) {
     var weekNumber = 0;
-    var i = 0;
-    while (i < weekStartDates.length && time >= weekStartDates[i]) {
-        i += 1;
-        if (i === 1 && time < weekStartDates[i]) {
+    while (weekNumber < weekStartDates.length && time >= weekStartDates[weekNumber]) {
+        weekNumber += 1;
+        if (weekNumber === 1 && time < weekStartDates[weekNumber]) {
             break;
         }
-        weekNumber += 1;
     }
     return weekNumber;
 }
