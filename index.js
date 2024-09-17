@@ -89,6 +89,12 @@ function convertToMinutes(time) {
     return hours * 60 + minutes;
 }
 
+/**
+ * Calculate the current period given the current time and a given schedule
+ * @param {string} time 
+ * @param {*} schedule 
+ * @returns {string} - the current period
+ */
 function calculatePeriodInSchedule(time, schedule) {
     var currentPeriod;
     var periodFound = false;
@@ -115,8 +121,6 @@ function calculatePeriodInSchedule(time, schedule) {
  * @returns {string} - The current period.
  */
 function calculatePeriod(time, day) {
-    var currentPeriod;
-
     // Define the period schedules for different days
     const schedules = {
         normal: [
