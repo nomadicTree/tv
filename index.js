@@ -262,9 +262,6 @@ function calculateCurrentWeek(time) {
     var weekNumber = 0;
     while (weekNumber < weekStartDates.length && time >= weekStartDates[weekNumber]) {
         weekNumber += 1;
-        if (weekNumber === 1 && time < weekStartDates[weekNumber]) {
-            break;
-        }
     }
     return weekNumber;
 }
