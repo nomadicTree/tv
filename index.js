@@ -6,6 +6,7 @@ var questionTime = true; // If true, a new question should be displayed. If fals
 var currentQuestion;
 var inactivityTimeout;
 var periodOverride = false; // should be false by default, change to string matching text to be displayed in place of period for overrides
+// var periodOverride
 
 /**
  * Get the current time as a Date object.
@@ -88,6 +89,25 @@ function convertToMinutes(time) {
     return hours * 60 + minutes;
 }
 
+function calculatePeriodInSchedule(time, schedule) {
+    var currentPeriod;
+    var periodFound = false;
+    var i = 0;
+    // Determine the current period based on the time
+    while ((i < schedule.length) && (!periodFound)) {
+        if (timeInRange(time, schedule[i].range)) {
+            currentPeriod = schedule[i].period;
+            periodFound = true;
+        }
+        i++;
+    }
+    // If no period is found, set to "No lesson"
+    if (!currentPeriod) {
+        currentPeriod = "No lesson";
+    }
+    return currentPeriod;
+}
+
 /**
  * Calculates the current period based on the given time and day.
  * @param {string} time - The current time in HH:MM format.
@@ -145,18 +165,7 @@ function calculatePeriod(time, day) {
         selectedSchedule = schedules.normal;
     }
 
-    // Determine the current period based on the time
-    for (var i = 0; i < selectedSchedule.length; i++) {
-        if (timeInRange(time, selectedSchedule[i].range)) {
-            currentPeriod = selectedSchedule[i].period;
-            break;
-        }
-    }
-
-    // If no period is found, set to "No lesson"
-    if (!currentPeriod) {
-        currentPeriod = "No lesson";
-    }
+    var currentPeriod = calculatePeriodInSchedule(time, selectedSchedule);
 
     return currentPeriod;
 }
