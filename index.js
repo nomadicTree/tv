@@ -5,7 +5,7 @@ var availableQuestions = [];
 var questionTime = true; // If true, a new question should be displayed. If false, the answer needs to be revealed.
 var currentQuestion;
 var inactivityTimeout;
-var periodOverride = "Open Evening"; // should be false by default, change to string matching text to be displayed in place of period for overrides
+var periodOverride = false; // should be false by default, change to string matching text to be displayed in place of period for overrides
 // var periodOverride
 
 /**
