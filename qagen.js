@@ -247,17 +247,29 @@ function createBinaryAdditionQuestion() {
     return additionQuestion;
 }
 
+function correctPlacesPlural(places) {
+    var placesText;
+    if (places === 1) {
+        placesText = "place";
+    } else {
+        placesText = "places";
+    }
+    return placesText;
+}
+
 function createLeftShiftQuestion(denaryValue, places) {
+    const placesText = correctPlacesPlural(places);
     const binaryString = denaryTo8bitBinary(denaryValue);
-    const questionText = "What is the result of " + binaryString + createSubscriptString(2) + " being shifted left by " + places + " places? Answer using 8 bits.";
+    const questionText = "What is the result of " + binaryString + createSubscriptString(2) + " being shifted left by " + places + " " + placesText +"? Answer using 8 bits.";
     const answerText = leftShift8Bit(binaryString, places) + createSubscriptString(2);
     const shiftQuestion = createQuestionObject(questionText, answerText);
     return shiftQuestion;
 }
 
 function createRightShiftQuestion(denaryValue, places) {
+    const placesText = correctPlacesPlural(places);
     const binaryString = denaryTo8bitBinary(denaryValue);
-    const questionText = "What is the result of " + binaryString + createSubscriptString(2) + " being shifted right by " + places + " places? Answer using 8 bits.";
+    const questionText = "What is the result of " + binaryString + createSubscriptString(2) + " being shifted right by " + places + " " + placesText + "? Answer using 8 bits.";
     const answerText = rightShift8bit(binaryString, places) + createSubscriptString(2);
     const shiftQuestion = createQuestionObject(questionText, answerText);
     return shiftQuestion;
