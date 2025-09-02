@@ -1,4 +1,4 @@
-const week1Start = new Date(2024, 8, 2); // Start date of week 1 (YYYY MM DD) but m is m-1
+const week1Start = new Date(2025, 9, 1); // Start date of week 1 (YYYY MM DD) but m is m-1
 const inactivityPeriod = 3000; // Time in milliseconds (e.g., 3000ms = 3 seconds)
 const weekStartDates = [];
 var availableQuestions = [];
@@ -220,11 +220,11 @@ function dateInRange(time, range) {
  */
 function validDate(time) {
     const invalidRanges = [
-        [new Date(2024, 9, 25), new Date(2024, 10, 1)], // October 25 to November 1
-        [new Date(2024, 11, 21), new Date(2025, 0, 5)], // December 21 to January 5
-        [new Date(2025, 1, 17), new Date(2025, 1, 21)], // February 17 to February 21
-        [new Date(2025, 4, 4), new Date(2025, 4, 21)], // April 4 to April 21
-        [new Date(2025, 5, 26), new Date(2025, 5, 30)] // May 26 to May 30
+        [new Date(2024, 9, 27), new Date(2024, 10, 3)], // months are month minus 1
+        [new Date(2024, 11, 20), new Date(2025, 0, 4)],
+        [new Date(2025, 1, 16), new Date(2025, 1, 19)],
+        [new Date(2025, 2, 27), new Date(2025, 3, 13)],
+        [new Date(2025, 4, 25), new Date(2025, 4, 30)]
     ];
 
     for (let i = 0; i < invalidRanges.length; i++) {
