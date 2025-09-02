@@ -1,4 +1,4 @@
-const week1Start = new Date(2025, 9, 1); // Start date of week 1 (YYYY MM DD) but m is m-1
+const week1Start = new Date(2025, 8, 1); // Start date of week 1 (YYYY MM DD) but m is m-1
 const inactivityPeriod = 3000; // Time in milliseconds (e.g., 3000ms = 3 seconds)
 const weekStartDates = [];
 var availableQuestions = [];
